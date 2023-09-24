@@ -1,0 +1,10 @@
+# Place this at the bottom of the ${HOME}/.profile file
+# set PATH so it includes user's private bin directories
+# If there was similar PATH setting, merge them so not to introduce
+# duplicated path entries.
+PATH="$HOME/bin:$HOME/.local/bin:$PATH"
+export PATH_ORIG="${PATH}"
+
+if [ -e "${HOME}/bin/env-setup" ]; then
+  source "${HOME}/bin/env-setup"
+fi

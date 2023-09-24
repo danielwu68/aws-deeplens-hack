@@ -1,0 +1,4 @@
+systemctl disable videoserver.service
+systemctl disable thermal.service
+systemctl disable update.service
+systemctl disable softap.service

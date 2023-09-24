@@ -1,0 +1,19 @@
+echo "===== ${HOME}/bin/env-setup ====="
+[ -n "${PATH_ORIG}" ] || export PATH_ORIG="${PATH}"
+export PATH="${PATH_ORIG}"
+
+export INSTALL_ROOT=${HOME}/install
+
+export LC_ALL="en_US.UTF-8"
+#export OPENSSL_HOME=${INSTALL_ROOT}/openssl-1.1.1w
+export OPENSSL_HOME=${INSTALL_ROOT}/openssl-3.0.10
+export OPENSSL_LIB=${OPENSSL_HOME}/lib64
+export LD_LIBRARY_PATH=${OPENSSL_LIB}
+export LDFLAGS="-L ${OPENSSL_LIB} -Wl,-rpath,${OPENSSL_LIB}"
+export PATH=${OPENSSL_HOME}/bin:${PATH}
+
+export PYTHON_HOME=${INSTALL_ROOT}/python-3.11.5
+export PATH=${PYTHON_HOME}/bin:${PATH}
+
+export NODEJS_HOME=${INSTALL_ROOT}/node-v16.20.2-linux-x64
+export PATH=${NODEJS_HOME}/bin:${PATH}
