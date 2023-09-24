@@ -217,8 +217,8 @@ blkid
 /dev/mmcblk2p1: UUID="cebcb1b8-927d-441e-a899-728c541d80c1" TYPE="ext2"```
 ```
 
-Add the following entry to `/etc/fstab`.  Note the `nofail` option which allows the OS to contiue boot sequence in case
-the SD card is not present or damaged.
+Add the following entry (update the UUID accordingly) to `/etc/fstab`.  Note the `nofail` option which allows the OS to 
+contiue boot sequence in case the SD card is not present or damaged.
 ```
 UUID=cebcb1b8-927d-441e-a899-728c541d80c1       /mnt/ext        ext4    defaults,nofail 0       2
 ```
@@ -244,7 +244,8 @@ tmpfs           781M   60K  781M   1% /run/user/1002
 
 ### Create a new OS user
 As previously mentioned, it is better to use a separate user so not to pollute the existing system library and causing
-issues.  This instruction use `adduser` wrapper script to create an OS user `dwu` with home directory set to `/mnt/ext/dwu`, it is ok to chose any user name and other directory path on the SD card as desired .  
+issues.  This instruction use `adduser` wrapper script to create an OS user `dwu` with home directory set to `/mnt/ext/dwu`
+, it is ok to chose any user name and other directory path on the SD card as desired.  
 
 ```
 # Assuming we are adding a new data working user `dwu`
@@ -336,7 +337,11 @@ make install
 ```
 
 ### Build Python
-To enable SSL support, which is needed by pip, uncomment the following lines in Modules/Setting.  
+```shell
+cd ~/build/Python-3.11.5
+```
+
+To enable SSL support, which is needed by pip, uncomment the following lines in `Modules/Setting``.
 
 Note, this is specific to Python 3.11,5.  It can be different for different Python version:
 ```
@@ -350,11 +355,12 @@ Note, this is specific to Python 3.11,5.  It can be different for different Pyth
 
 ```shell
 # configure the build with custom target directory
-./configure --prefix=${PYTHON_HOME}
-# start the build
-make
-# install the artifects to target directory
-make install
+./configure --prefix=${PYTHON_HOME} 
+# build and install
+make \
+  OPENSSL_INCLUDES=-I${OPENSSL_HOME}/include \
+  OPENSSL_LDFLAGS="-L ${OPENSSL_LIB} -Wl,-rpath,${OPENSSL_LIB}" \
+  install
 ```
 
 ### Setup Jupyter Lab Server
